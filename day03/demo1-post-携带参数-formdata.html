@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="file" accept="image/*" />
+    <script>
+      const input = document.querySelector('input');
+      input.addEventListener('change', function () {
+        
+        const file = this.files[0];
+        const formdata = new FormData();
+        formdata.append('avatar', file);
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('post', 'http://www.itcbc.com:3006/api/formdata');
+        // 不用设置 content-type
+        xhr.send(formdata);
+        xhr.addEventListener('load', function () {
+          console.log(this.response);
+        });
+      });
+    </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            width: 1200px;
+            margin: 50px auto;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        li {
+            width: 380px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <ul></ul>
+    <script src="./lib/axios.js"></script>
+    <script>
+         axios({
+            method: 'get',
+            url:'http://www.itcbc.com:3006/api/news',
+            // url:'http://www.itcbc.com:3006/images/0.webp'
+        }).then((result)=>{
+            // console.log(result)
+            const arr = result.data.data;
+            console.table(arr)
+            render(arr);
+        });
+        function render(arr) {
+          let html = arr
+            .map(
+                (value) => `
+                            <li>
+                                <h3>${value.title}</h3>
+                                <h6>${value.source}</h6>
+                                <p>${value.cmtcount}</p>
+                                <td><img src="http://www.itcbc.com:3006${value.img}" alt=""></td>
+                                <p>${value.time}</p>
+                            </li>
+                        `
+                )
+                .join('');
+            document.querySelector('ul').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

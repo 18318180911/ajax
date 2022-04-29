@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>gghj</button>
+      <!-- 1 引入axios -->
+    <script src="./lib/axios.js"></script>
+    <script>
+        const button = document.querySelector('button');
+        button.addEventListener('click', function () {
+            // 执行 post请求新新增数据
+            axios({
+            method: 'post', // post
+            url: 'http://www.itcbc.com:3006/api/addbook', // url
+            // 参数
+            data: {
+                // 这个里面 不能乱写 属性名和属性值
+                // 乱写参数，如果后端因为你不按照规范出了错 你前端 也是背锅
+                bookname: '从入门到精通',
+                author: '我自己',
+                publisher: '黑马出版社', // 想传递一个数字格式 不行 （我只能去对比代码看什么地方可能出错）
+                // publisher: Date.now()+"",// 想传递一个数字格式 不行 （我只能去对比代码看什么地方可能出错）
+            },
+            }).then((result) => {
+            // 去银行操作完毕之后  存钱 取钱  纸条 告诉我们  操作成功与否
+            console.log(result);
+            });
+        });
+      </script>
+</body>
+</html>

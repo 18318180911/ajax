@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        ajax({
+          url: 'http://www.itcbc.com:3006/api/getbooks',
+          type: 'get',
+          success(result) {
+            console.log(result);
+          },
+        });
+        ajax({
+          url: 'http://www.itcbc.com:3006/api/getbooks',
+          type: 'post',
+          success(result) {
+            console.log(result);
+          },
+        });
+  
+        function ajax({ url, type, data = '', success }) {
+          const xhr = new XMLHttpRequest();
+          // 判断 请求类型
+          if (type === 'get') {
+            // get请求的相关的代码
+            if (typeof data === 'object') {
+              data = new URLSearchParams(data).toString();
+            }
+            xhr.open(type, url + '?' + data);
+            xhr.send();
+          } else if (type === 'post') {
+            // post请求的相关的代码
+            xhr.open(type, url);
+            xhr.send();
+          }
+          xhr.addEventListener('load', function () {
+            const obj = JSON.parse(this.response);
+            success(obj);
+          });
+        }
+      </script>
+</body>
+</html>

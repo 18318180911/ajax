@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            width: 1200px;
+            margin: 50px auto;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        li {
+            width: 380px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <ul></ul>
+    <script src="./js/axios.js"></script>
+    <script>
+        axios.get("https://api.iyk0.com/7rtq/?city=北京")
+       .then((result) => {
+            const arr = result.data.data;
+            console.table(arr)
+            render(arr);
+       });
+    //    render(arr);
+        function render(arr) {
+          let html = arr
+            .map(
+                (value) => `
+                            <li>
+                                <h3>${value.city}</h3>
+                                <h6>${value.date}</h6>
+                                <p>${value.wea_img}</p>
+                                <p><span>${value.wea}</span></p>
+                                <p><span>${value.tem_day}</span> <span>${value.tem_night}</p>
+                                <p><span>${value.win}</span> | <span>${value.win_speed}</span></p>
+                            </li>
+                        `
+                )
+                .join('');
+            document.querySelector('ul').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

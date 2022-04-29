@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const option = {
+        url: 'http://www.itcbc.com:3006/api/getbooks',
+        type: 'get',
+        // data: 'appkey=wanshao1234',
+        success(result) {
+          // result 等于 要等于响应的数据 =  对象格式 
+          console.log(result);
+        },
+    }
+    ajax(option);
+    ajax({
+        url: 'http://www.itcbc.com:3006/api/getbooks',
+        type: 'get',
+        data: 'appkey=wanshao1234',
+        success(result) {
+          console.log(result);
+        },
+      });
+    function ajax(config) {
+        console.log(config.data)
+        const xhr = new XMLHttpRequest();
+        if (config.data) {
+            xhr.open(config.type, config.url+'?'+config.data)
+        } else {
+            xhr.open(config.type, config.url)
+        }
+        
+        xhr.send();
+        xhr.addEventListener('load', function() {
+            const obj = JSON.parse(this.response)
+            config.success(obj);
+        })
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button>加载一个数据</button>
+    <script src="./js/axios.js"></script>
+    <script>
+        const button = document.querySelector('button');
+        button.addEventListener('click', function () {
+            axios({
+                method: 'post',
+                url: 'http://www.itcbc.com:3006/api/addbook',
+                // 字符串格式类型 
+                data: "bookname=从入门到出去123&author=我自己&publisher=黑马出版社&appkey=wanshao1234"
+            }).then((result) => {
+                console.log(result);
+            });
+        });
+    </script>
+</body>
+</html>

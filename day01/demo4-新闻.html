@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1px">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>标题</th>
+            <th>来源</th>
+            <th>编号</th>
+            <th>图片</th>
+            <th>时间</th>
+            
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    <script src="./lib/axios.js"></script>
+    <script>
+        axios({
+            method: 'get',
+            url:'http://www.itcbc.com:3006/api/news',
+            // url:'http://www.itcbc.com:3006/images/0.webp'
+        }).then((result)=>{
+            console.log(result)
+            const arr = result.data.data;
+            render(arr)
+        });
+        function render(arr) {
+          let html = arr
+            .map(
+                (value) => `
+                                <tr>
+                                    <td>${value.id}</td>
+                                    <td>${value.title}</td>
+                                    <td>${value.source}</td>
+                                    <td>${value.cmtcount}</td>
+                                    <td><img src="http://www.itcbc.com:3006${value.img}" alt=""></td>
+                                    <td>${value.time}</td>
+                                </tr>
+                                `
+                )
+                .join('');
+            document.querySelector('tbody').innerHTML = html;
+        }
+    </script>
+</body>
+</html>

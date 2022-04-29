@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const xhr = new XMLHttpRequest();
+        xhr.open('post', 'http://www.itcbc.com:3006/api/addbook');
+        const data = {
+            bookname: '1从入门到精通1',
+            author: '我自己',
+            publisher: '黑马出版社',
+            appkey: 'wanshao1234',
+        };
+        const usp = new URLSearchParams(data);
+        const query = usp.toString();
+        xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xhr.send(query);
+        xhr.addEventListener('load', function() {
+            console.log(this.response);
+        });
+    </script>
+</body>
+</html>

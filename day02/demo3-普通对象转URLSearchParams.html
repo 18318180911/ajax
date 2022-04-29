@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="text" name="username" value="123">
+        <input type="text" name="password" value="456">
+    </form>
+    <script src="./js/axios.js"></script>
+    <script>
+        const data = {
+            bookname: '111222',
+            author: '222222',
+            publisher: '33333',
+            appkey: 'wanshao1234',
+        };
+        const usp = new URLSearchParams(data);
+        console.log(usp.toString());
+    </script>
+</body>
+</html>

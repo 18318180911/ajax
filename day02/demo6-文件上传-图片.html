@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="" alt="">
+    <!-- accept = "image/*,video/*" -->
+    <input type="file" accept="imge/*">
+    <script src="./js/axios.js"></script>
+    <script>
+        const input = document.querySelector('input');
+        const img = document.querySelector('img');
+        input.addEventListener('change', function() {
+            // 要上传的文件对象
+            const file = this.files[0];
+            // 新的js对象 把浏览器内存中图片文件的地址 获取出来
+            const src = URL.createObjectURL(file);
+            // 让图片显示出来
+            img.src = src;
+            // 创建一个空formdata对象
+            const formdata = new FormData();
+            // 接口要求 把文件追加到 formdata对象
+            formdata.append('avatar', file);
+            // 把数据上传服务器中
+            // axios({
+            //     method: 'post',
+            //     url: 'http://www.itcbc.com:3006/api/formdata',
+            //     data: formdata,
+            // }).then((result) => {
+            //     console.log(result);
+            // });
+            // 简写
+            axios.post('http://www.itcbc.com:3006/api/formdata', formdata).then((result) => {
+                console.log(result);
+            })
+        })
+    </script>
+</body>
+</html>

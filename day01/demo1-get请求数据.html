@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="1px">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>出版社</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <!-- 1 引入axios -->
+      <script src="./lib/axios.js"></script>
+      <script>
+        //  开始向服务器 发送请求 索要数据
+        axios({
+          //  method:"请求类型",
+          //  url:"资源地址",
+          method: 'get',
+          url: 'http://www.itcbc.com:3006/api/getbooks',
+          //查询
+          // params: {
+          //   id: 5913,
+          //   // bookname: "万少",
+          //   // bookname: '你猜',
+          //   // author: '黑马'
+          // },
+          // 查询
+          url: 'http://www.itcbc.com:3006/api/getbooks?id=5913',
+        }).then((result) => {
+          // 给你了一个数组 arr 数组的格式
+          console.log(result)
+          const arr = result.data.data; // 字段的名称 id、bookname、author。publisher 固定  
+          render(arr);
+        });
+  
+        function render(arr) {
+          let html = arr
+            .map(
+                (value) => `
+                                <tr>
+                                    <td>${value.id}</td>
+                                    <td>${value.bookname}</td>
+                                    <td>${value.author}</td>
+                                    <td>${value.publisher}</td>
+                                </tr>
+                                `
+                )
+                .join('');
+            document.querySelector('tbody').innerHTML = html;
+        }
+      </script>
+</body>
+</html>

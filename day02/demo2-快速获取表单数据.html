@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="text" name="username">
+        <input type="text" name="password">
+        <input type="text" />
+        <button type="button">获取表单数据</button>
+    </form>
+    <script>
+        const button = document.querySelector('button');
+        button.addEventListener('click', function () {
+            const data123 = getForm('form');
+            console.log(data123);
+            // 快速 把 form表单中的带有name属性的数据 设置到 formdata 中
+            const form = new FormData(document.querySelector('form'));
+            // 创建把数据转成get参数格式对象
+            const usp = new URLSearchParams();
+            // 对for遍历
+            form.forEach((value, key) => {
+                usp.append(key, value);
+            });
+            // usp 获取到了所有它等待转化的数据  开始进行转化
+            const data = usp.toString();
+            console.log(data);
+        })
+        function getForm(query) {
+            const form = new FormData(document.querySelector(query));
+            const usp = new URLSearchParams();
+            form.forEach((value, key) => {
+                usp.append(key, value);
+            });
+            const data = usp.toString();
+            return data;
+        }
+    </script>
+</body>
+</html>

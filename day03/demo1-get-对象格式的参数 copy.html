@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 1
+      ajax({
+        url: 'http://www.itcbc.com:3006/api/getbooks',
+        type: 'get',
+        // data: 'appkey=wanshao1234',
+        success(result) {
+          console.log(result);
+        },
+      });
+      // 2
+      ajax({
+        url: 'http://www.itcbc.com:3006/api/getbooks',
+        type: 'get',
+        data: 'appkey=wanshao1234',
+        success(result) {
+          console.log(result);
+        },
+      });
+
+      // 3
+      ajax({
+        url: 'http://www.itcbc.com:3006/api/getbooks',
+        type: 'get',
+        data: {
+          appkey: 'wanshao1234',
+          bookname: '今晚吃啥',
+        },
+        success(result) {
+          console.log(result);
+        },
+      });
+    function ajax({url, type, data = '', success}) {
+        const xhr = new XMLHttpRequest();
+
+        if (typeof data === 'object') {
+          // data是一个对象
+          data = new URLSearchParams(data).toString();
+        }
+        // (typeof data === 'object')&&(data = new URLSearchParams(data).toString())
+        xhr.open(type, url + '?' + data); // a=1&b=2 URLSearchParams
+        xhr.send();
+        xhr.addEventListener('load', function () {
+          const obj = JSON.parse(this.response);
+          success(obj);
+        });
+    }
+    </script>
+</body>
+</html>

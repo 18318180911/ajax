@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        ul {
+            width: 1200px;
+            margin: 25px auto;
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        li {
+            width: 625px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" placeholder="请输入需要查询的星座">
+    <div id="astros"></div>
+    <script src="./js/axios.js"></script>
+    <script>
+         getData()
+        let input = document.querySelector('input');
+        input.addEventListener('keydown', function(event) {
+            if (event.key == 'Enter') {
+               //2.2获取输入框的值。trim()去除输入框的值(两侧的空字符串)
+               const value = this.value.trim();
+               if (value) {
+                //    console.log('不是空字符串');
+                   const queryStr = `&astro=${value}`;
+                   getData(queryStr);
+               } else {
+                getData()
+               }
+           }
+        })
+        //get
+        // let astros = ['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'];
+        function getData () {
+            let astros = ['aries', 'taurus'];
+            astros.map((name = '') => {
+                axios.get("http://api.tianapi.com/star/index?key=460e48e33565c783f9e612e86e4c7b7d&astro="+name)
+                    .then((result) => {
+                        //    console.log(result);
+                        const arr = result.data.newslist;
+                        // console.table(arr)
+                        render(arr);
+                    });
+                function render(arr) {
+                    let html = `<a>${name}</a>`;
+
+                    html +="<ul>";
+                    html += arr
+                        .map(
+                            (value) => `
+                                <li>
+                                    <span>${value.type}</span><span>${value.content}</span>
+                                </li>
+                                <hr />
+                            `
+                        )
+                        .join('');
+                    html +="</ul><hr />"
+                    document.querySelector('#astros').innerHTML += html;
+                }
+                
+
+            })
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: space-around;
+      }
+      .left {
+        width: 1000px;
+      }
+      .right {
+        flex: 1;
+      }
+      form {
+        width: 90%;
+        margin: 0 auto;
+        background-color: #eee;
+      }
+      h3 {
+        background-color: brown;
+        color: #fff;
+        padding: 10px;
+      }
+      input {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
+        height: 50px;
+        border-radius: 5px;
+        font-size: 25px;
+        color: #666;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      table {
+        width: 800px;
+        margin: 0 auto;
+      }
+      thead tr {
+        background-color: blue;
+        color: #fff;
+        font-size: 20px;
+      }
+      tbody tr:nth-child(odd) {
+        background-color: green;
+        color: #fff;
+        font-size: 18px;
+      }
+      tbody tr:nth-child(even) {
+        background-color: peru;
+        color: #fff;
+        font-size: 18px;
+      }
+      td,
+      th {
+        padding: 10px;
+      }
+      input {
+        width: 800px;
+        display: block;
+        margin: 30px auto;
+        height: 100px;
+        border-radius: 50px;
+        border: none;
+        background-color: skyblue;
+        font-size: 40px;
+        text-indent: 20px;
+        color: #666;
+        outline: none;
+      }
+    </style>
+</head>
+<body>
+  <div class="left">
+    <input type="text" class="keyword" />
+    <table>
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>书名</th>
+          <th>作者</th>
+          <th>出版社</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <div class="right">
+    <form>
+      <h3>编辑</h3>
+      <input type="text" placeholder="书名" class="bookname" />
+      <input type="text" placeholder="作者" class="author" />
+      <input type="text" placeholder="出版社" class="publisher" />
+      <input type="button" value="编辑" class="btnedit" />
+    </form>
+  </div>
+  <script src="./lib/axios.js"></script>
+  <script>
+        const tbody = document.querySelector('tbody');
+        
+        let arr;
+        let id;
+        const booknameValue = document.querySelector('.bookname');
+        const authorValue = document.querySelector('.author');
+        const publisherValue = document.querySelector('.publisher');
+        const btnedit = document.querySelector('.btnedit');
+        tbody.addEventListener('click', function (e) {
+          if(e.target.className === 'editbtn') {
+            const { index } = e.target.dataset;
+            console.log(arr[index]);
+            booknameValue.value=arr[index].bookname;
+            authorValue.value=arr[index].author;
+            publisherValue.value=arr[index].publisher;
+            // 获取被编辑的数据id
+            id = arr[index].id;
+          }
+        });
+        btnedit.addEventListener('click', function() {
+          const data = {
+            id: id,
+            bookname: booknameValue.value,
+            author: authorValue.value,
+            publisher: publisherValue.value,
+            appkey: 'weiyi11'
+          };
+          //发送编辑请求
+          axios({
+            method: 'put',
+            url: 'http://www.itcbc.com:3006/api/updatebooks',
+            // query - params; body = data
+            data,
+          }).then((result) => {
+            console.log(result);
+            getData();
+          });
+        });
+        getData();
+        function getData() {
+          axios({
+            method: 'get',
+            url:'http://www.itcbc.com:3006/api/getbooks',
+            params: {
+              appkey: 'weiyi11',
+            },
+          }).then((result) => {
+            console.log(result);
+            arr = result.data.data;
+            const html = arr
+              .map((value, index) => {
+                return `
+                        <tr>
+                          <td>${value.id}</td>
+                          <td>${value.bookname}</td>
+                          <td>${value.author}</td>
+                          <td>${value.publisher}</td>
+                          <td><a class="editbtn" data-index="${index}" href="javascript:;" >编辑</a></td>
+                </tr>
+                  `;
+                    })
+            .join('');
+          tbody.innerHTML = html;
+        });
+      }
+    </script>
+  </body>
+</html>

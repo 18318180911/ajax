@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <img src="./images/1.gif" alt="">
+    <button>提交</button>
+    <script src="./js/axios.js"></script>
+    <script>
+        // 添加
+        axios.interceptors.request.use(
+            function (config) {
+                document.querySelector('img').style.display = 'block';
+                return config;
+            },
+            function (error) {
+                return Promise.reject(error);
+            }
+        );
+        const button = document.querySelector('button');
+        button.addEventListener('click', function() {
+            axios.get('http://www.itcbc.com:3006/api/getbooks?appkey=wanshao1234')
+            .then((result) => {
+                console.log(result);
+            })
+        })
+    </script>
+</body>
+</html>
